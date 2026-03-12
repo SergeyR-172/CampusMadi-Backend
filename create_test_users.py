@@ -5,7 +5,7 @@ from sqlalchemy import select
 from core.database import database
 from core.models.user import User
 from api.jwt_auth.utils import hash_password
-
+вапвап
 
 TEST_USERS = [
     {
