@@ -4,7 +4,11 @@ from api.jwt_auth.router import router as jwt_router
 from api.admin.router import router as admin_router
 import uvicorn
 
-app = FastAPI()
+app = FastAPI(
+    title="CampusMadi Backend API",
+    description="API для работы с расписанием и заметками к нему.",
+    version="0.1.0",
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,7 +21,12 @@ app.add_middleware(
 app.include_router(jwt_router)
 app.include_router(admin_router)
 
-@app.get("/healthcheck", tags=["Healthcheck"], summary="Проверка работоспособности сервера")
+@app.get(
+    "/healthcheck",
+    tags=["Healthcheck"],
+    summary="Проверка работоспособности сервера",
+    description="Возвращает статус сервера, чтобы убедиться, что приложение запущено и отвечает.",
+)
 def healthcheck():
     return {"message": "server is ok"}
 

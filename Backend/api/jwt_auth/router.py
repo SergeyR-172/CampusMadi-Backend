@@ -13,11 +13,21 @@ from . import dependencies as dp
 
 router = APIRouter(tags=["JWT_Auth"], prefix="/api/jwt")
 
-@router.get("/me", response_model=UserSchema)
+@router.get(
+    "/me",
+    response_model=UserSchema,
+    summary="Получить профиль текущего пользователя",
+    description="Возвращает данные пользователя на основе access token из заголовка Authorization Bearer.",
+)
 async def get_me(user = Depends(dp.get_current_user)):
     return user
 
-@router.post("/login", response_model=TokenInfo)
+@router.post(
+    "/login",
+    response_model=TokenInfo,
+    summary="Вход в систему",
+    description="Проверяет логин и пароль, выдает access token и устанавливает access/refresh токены в cookies.",
+)
 async def auth_user_jwt(
     response: Response,
     user_data: UserLogin,
@@ -72,7 +82,12 @@ async def auth_user_jwt(
     )
 
 
-@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
+@router.post(
+    "/logout",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Выход из системы",
+    description="Отзывает refresh token (если есть) и удаляет access/refresh cookies.",
+)
 async def logout_user_jwt(
     request: Request,
     response: Response,
@@ -98,7 +113,12 @@ async def logout_user_jwt(
     )
 
 
-@router.post("/refresh", response_model=TokenInfo)
+@router.post(
+    "/refresh",
+    response_model=TokenInfo,
+    summary="Обновить пару токенов",
+    description="Проверяет refresh token из cookie, перевыпускает access token и новый refresh token.",
+)
 async def refresh_tokens_jwt(
     request: Request,
     response: Response,

@@ -17,7 +17,12 @@ router = APIRouter(prefix="/api/admin", tags=["Admin"])
 
 isAdmin = Annotated[User, Depends(auth_dp.is_admin)]
 
-@router.get("/users", response_model=list[UserOut])
+@router.get(
+    "/users",
+    response_model=list[UserOut],
+    summary="Получить список пользователей",
+    description="Возвращает список всех пользователей. Доступно только администратору.",
+)
 async def list_users(
     _: isAdmin,
     session: AsyncSession = Depends(database.get_session),
@@ -25,7 +30,12 @@ async def list_users(
     return await crud.get_users(session)
 
 
-@router.get("/users/{user_id}", response_model=UserOut)
+@router.get(
+    "/users/{user_id}",
+    response_model=UserOut,
+    summary="Получить пользователя по ID",
+    description="Возвращает пользователя по идентификатору. Доступно только администратору.",
+)
 async def get_user(
     user_id: int,
     _: isAdmin,
@@ -37,7 +47,12 @@ async def get_user(
     return user
 
 
-@router.post("/users", response_model=UserOut)
+@router.post(
+    "/users",
+    response_model=UserOut,
+    summary="Создать пользователя",
+    description="Создает нового пользователя с указанной ролью. Доступно только администратору.",
+)
 async def create_user(
     user_data: UserCreate,
     _: isAdmin,
@@ -60,7 +75,12 @@ async def create_user(
     )
 
 
-@router.patch("/users/{user_id}", response_model=UserOut)
+@router.patch(
+    "/users/{user_id}",
+    response_model=UserOut,
+    summary="Обновить пользователя",
+    description="Частично обновляет данные пользователя (username, password, name, role). Доступно только администратору.",
+)
 async def update_user(
     user_id: int,
     user_data: UserUpdate,
@@ -88,7 +108,11 @@ async def update_user(
     return updated
 
 
-@router.delete("/users/{user_id}")
+@router.delete(
+    "/users/{user_id}",
+    summary="Удалить пользователя",
+    description="Удаляет пользователя по идентификатору. Доступно только администратору.",
+)
 async def delete_user(
     user_id: int,
     _: isAdmin,
