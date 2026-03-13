@@ -20,7 +20,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Backend/Dockerfile
     container_name: campusmadi-app
     restart: unless-stopped
     depends_on:
