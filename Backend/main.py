@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.jwt_auth.router import router as jwt_router
+from api.admin.router import router as admin_router
 import uvicorn
 
 app = FastAPI()
@@ -14,6 +15,7 @@ app.add_middleware(
 )
 
 app.include_router(jwt_router)
+app.include_router(admin_router)
 
 @app.get("/healthcheck", tags=["Healthcheck"], summary="Проверка работоспособности сервера")
 def healthcheck():
