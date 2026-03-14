@@ -1,8 +1,7 @@
-name: campusmadi
-
 services:
   db:
     image: postgres:16-alpine
+    container_name: campusmadi-backend-db
     restart: unless-stopped
     environment:
       POSTGRES_USER: user
@@ -20,8 +19,9 @@ services:
 
   app:
     build:
-      context: ./Backend
+      context: .
       dockerfile: Dockerfile
+    container_name: campusmadi-backend-app
     restart: unless-stopped
     depends_on:
       db:
