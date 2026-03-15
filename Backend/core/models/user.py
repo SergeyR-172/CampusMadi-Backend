@@ -5,7 +5,7 @@ from .base import Base
 
 if TYPE_CHECKING:
     from .refresh_token import RefreshToken
-    from .groups import Group
+    from .group import Group
     from .note import Note
 
 class User(Base):
